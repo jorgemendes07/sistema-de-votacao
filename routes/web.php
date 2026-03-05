@@ -1,9 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\PollController;
+use App\Http\Controllers\PollOptionController;
 
-Route::get('/debug-tables', function () {
-    $tables = DB::select('SHOW TABLES');
-    dd($tables);
-});
+Route::resource('polls', PollController::class);
+
+// Route::prefix('polls/{poll}')->group(function() {
+//     Route::resource('options', PollOptionController::class);
+// });
+
+Route::resource('polls.options', PollOptionController::class);

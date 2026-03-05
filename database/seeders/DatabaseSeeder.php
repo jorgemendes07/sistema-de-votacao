@@ -2,24 +2,23 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Poll;
+use App\Models\PollOption;
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        $poll = Poll::create([
+            'title' => 'Enquete teste',
+            'start_date' => now(),
+            'end_date' => now()->addDays(1),
+            'status' => 'não iniciada',
         ]);
+
+        PollOption::create(['poll_id' => $poll->id, 'option_text' => 'Opção 1']);
+        PollOption::create(['poll_id' => $poll->id, 'option_text' => 'Opção 2']);
+        PollOption::create(['poll_id' => $poll->id, 'option_text' => 'Opção 3']);
     }
 }
