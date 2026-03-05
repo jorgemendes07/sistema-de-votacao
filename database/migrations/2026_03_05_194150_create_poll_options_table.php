@@ -6,14 +6,12 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
+
     public function up(): void
     {
         Schema::create('poll_options', function (Blueprint $table) {
             $table->id();
-            $table->foreingId('poll_id')->constrained('polls')->onDelete('cascade');
+            $table->foreignId('poll_id')->constrained('polls')->onDelete('cascade');
             $table->string('option_text');
             $table->integer('votes')->default(0);
             $table->timestamps();
