@@ -1,5 +1,6 @@
 {{-- resources/views/polls/vote.blade.php --}}
 @extends('layouts.app')
+@section('showBackButton', true)
 
 @section('content')
 <div class="max-w-2xl mx-auto flex flex-col gap-6">
@@ -26,32 +27,45 @@
         </div>
     </div>
 
-    <form action="{{ route('polls.vote', $poll->id) }}" method="POST" class="flex flex-col gap-3">
+    <form action="{{ route('polls.vote', $poll->id) }}" method="POST" class="flex flex-col gap-4">
         @csrf
-        @foreach($poll->options as $option)
-        @php
-            $totalVotes = $poll->options->sum('votes');
-            $pct = $totalVotes > 0 ? round($option->votes / $totalVotes * 100) : 0;
-        @endphp
+        <div class="flex flex-col gap-3">
+            @foreach($poll->options as $option)
+                @php
+                    $totalVotes = $poll->options->sum('votes');
+                    $pct = $totalVotes > 0 ? round($option->votes / $totalVotes * 100) : 0;
+                @endphp
 
-        <button 
-            type="submit" 
-            name="option_id" 
-            value="{{ $option->id }}"
-            class="relative overflow-hidden cursor-pointer transition-all p-4 rounded-lg border bg-white border-gray-300 shadow-sm hover:ring-2 hover:ring-violet-300
-                {{ $status !== 'active' ? 'opacity-70 cursor-not-allowed' : '' }}"
-            {{ $status !== 'active' ? 'disabled' : '' }}
-        >
-            <div class="absolute inset-0 bg-violet-100 transition-all duration-500" style="width: {{ $pct }}%"></div>
-            <div class="relative flex items-center justify-between gap-3">
-                <span class="font-medium">{{ $option->option_text }}</span>
-                <div class="flex items-center gap-2 shrink-0">
-                    <span class="text-violet-500 font-semibold">{{ $option->votes }} votos</span>
-                    <span class="text-xs text-gray-500">({{ $pct }}%)</span>
-                </div>
-            </div>
-        </button>
-        @endforeach
+                <label class="relative block group">
+                    <input type="radio" name="option_id" value="{{ $option->id }}" class="peer hidden" 
+                        {{ $status !== 'active' ? 'disabled' : '' }} required>
+                    
+                    <div class="relative overflow-hidden cursor-pointer transition-all p-4 rounded-lg border bg-white border-gray-300 shadow-sm 
+                        peer-checked:ring-2 peer-checked:ring-violet-500 peer-checked:border-violet-500 hover:bg-gray-50
+                        {{ $status !== 'active' ? 'opacity-70 cursor-not-allowed' : '' }}">
+                        
+                        {{-- Barra de Progresso --}}
+                        <div class="absolute inset-0 bg-violet-100 transition-all duration-500" style="width: {{ $pct }}%"></div>
+                        
+                        <div class="relative flex items-center justify-between gap-3">
+                            {{-- Apenas o texto da opção --}}
+                            <span class="font-medium text-gray-800">{{ $option->option_text }}</span>
+                            
+                            <div class="flex items-center gap-2 shrink-0">
+                                <span class="text-violet-500 font-semibold">{{ $option->votes }} votos</span>
+                                <span class="text-xs text-gray-500">({{ $pct }}%)</span>
+                            </div>
+                        </div>
+                    </div>
+                </label>
+            @endforeach
+        </div>
+
+        @if($status === 'active')
+            <button type="submit" class="w-full bg-violet-600 hover:bg-violet-700 text-white font-bold py-3 px-6 rounded-lg transition-colors shadow-md mt-2">
+                Votar
+            </button>
+        @endif
     </form>
 
     @if($status !== 'active')
