@@ -84,7 +84,7 @@ php artisan key:generate
 
 ------------------------------------------------------------------------
 
-### 5. Compilar os assets
+### 6. Compilar os assets
 
 ``` bash
 npm install
@@ -93,7 +93,7 @@ npm run build
 
 ------------------------------------------------------------------------
 
-### 6. Rodar as migrations e popoular o banco com dados de teste
+### 7. Rodar as migrations e popoular o banco com dados de teste
 
 ``` bash
 php artisan migrate --seed
@@ -101,7 +101,7 @@ php artisan migrate --seed
 
 ------------------------------------------------------------------------
 
-### 7. Acessar a aplicação
+### 8. Acessar a aplicação
 
 Abra no navegador:
 
