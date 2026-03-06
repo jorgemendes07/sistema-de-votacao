@@ -3,7 +3,23 @@
 Aplicação web para criação e gerenciamento de enquetes.
 
 O projeto foi desenvolvido com **Laravel** e executado em ambiente
-**Docker**, como teste técnico para estágio.
+**Docker**, como parte de um teste técnico para estágio.
+
+------------------------------------------------------------------------
+
+## Telas da aplicação
+
+### Tela inicial
+
+![Tela Inicial](./docs/index.png)
+
+### Visualização da enquete
+
+![Enquete](./docs/vote.png)
+
+### Formulário para nova enquete
+
+![Formulario](./docs/form.png)
 
 ------------------------------------------------------------------------
 
@@ -43,7 +59,7 @@ O projeto foi desenvolvido com **Laravel** e executado em ambiente
 ### 1. Clonar o repositório
 
 ``` bash
-git clone hhttps://github.com/jorgemendes07/sistema-de-votacao.git
+git clone https://github.com/jorgemendes07/sistema-de-votacao.git
 cd sistema-de-votacao
 cp .env.example .env
 ```
@@ -93,7 +109,7 @@ npm run build
 
 ------------------------------------------------------------------------
 
-### 7. Rodar as migrations e popoular o banco com dados de teste
+### 7. Rodar as migrations e popular o banco com dados de teste
 
 ``` bash
 php artisan migrate --seed
