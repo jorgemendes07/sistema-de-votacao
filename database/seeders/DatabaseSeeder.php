@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
 
         // Enquete 2
         $poll2 = Poll::create([
-            'title' => 'Qual banda não pode faltar no rock in rio?',
+            'title' => 'Qual banda não pode faltar no Rock in Rio?',
             'start_date' => now()->subDays(10),
             'end_date' => now()->subDays(2),
         ]);
