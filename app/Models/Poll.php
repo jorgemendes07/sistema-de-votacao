@@ -13,7 +13,6 @@ class Poll extends Model
         'title',
         'start_date',
         'end_date',
-        'status', // não iniciada, em andamento, finalizada
     ];
 
     protected $casts = [
@@ -35,16 +34,18 @@ class Poll extends Model
     }
 
     // Atualizar status automaticamente
-    public function updateStatus(): void
+    public function getStatusAttribute(): string
     {
         $now = now();
+
         if ($now < $this->start_date) {
-            $this->status = 'não iniciada';
-        } elseif ($now > $this->end_date) {
-            $this->status = 'finalizada';
-        } else {
-            $this->status = 'em andamento';
+            return 'não iniciada';
         }
-        $this->save();
+
+        if ($now > $this->end_date) {
+            return 'finalizada';
+        }
+
+        return 'em andamento';
     }
 }
