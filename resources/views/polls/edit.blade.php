@@ -74,7 +74,7 @@
 
         <button type="button" id="add-option" class="self-start text-blue-600 hover:underline">+ Adicionar opção</button>
 
-        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition cursor-pointer">
             Salvar Enquete
         </button>
     </form>
