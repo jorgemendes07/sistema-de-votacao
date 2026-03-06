@@ -84,7 +84,7 @@ php artisan key:generate
 
 ------------------------------------------------------------------------
 
-### 6. Compilar os assets
+### 6. Compilar os assets (na raiz do projeto. fora do bash do docker)
 
 ``` bash
 npm install
