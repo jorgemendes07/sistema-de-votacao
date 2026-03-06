@@ -1,5 +1,6 @@
 {{-- resources/views/polls/edit.blade.php --}}
 @extends('layouts.app')
+@section('showBackButton', true)
 
 @section('content')
 <div class="max-w-2xl mx-auto flex flex-col gap-6">
@@ -72,9 +73,9 @@
             @endforeach
         </div>
 
-        <button type="button" id="add-option" class="self-start text-blue-600 hover:underline">+ Adicionar opção</button>
+        <button type="button" id="add-option" class="self-start text-violet-600 cursor-pointer hover:underline">+ Adicionar opção</button>
 
-        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition cursor-pointer">
+        <button type="submit" class="bg-violet-600 text-white px-4 py-2 rounded hover:bg-violet-900 transition cursor-pointer">
             Salvar Enquete
         </button>
     </form>
