@@ -15,10 +15,10 @@
             };
         @endphp
 
-        <div class="bg-white p-4 border border-gray-400 rounded-lg hover:bg-gray-50 transition flex flex-col gap-2 relative">
+        <div class="bg-white p-4 border border-gray-400 rounded-lg hover:bg-gray-50 hover:shadow-lg transition flex flex-col gap-2 relative">
             <div class="flex justify-between items-start">
                 <h2 class="font-semibold text-lg">{{ $poll->title }}</h2>
-                <span class="px-2 py-1 rounded-full text-xs {{ $statusClasses }}">{{ ucfirst($status) }}</span>
+                <span class="px-2 py-1 rounded-full text-xs min-w-max ml-3 {{ $statusClasses }}">{{ ucfirst($status) }}</span>
             </div>
 
             <p class="text-sm text-gray-500">
@@ -28,20 +28,20 @@
             <div class="flex gap-2 mt-2">
                 <a href="{{ route('polls.vote', $poll) }}" 
                    class="px-3 py-1 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 transition text-sm">
-                    Ver
+                    <i class="fas fa-eye"></i> Ver
                 </a>
 
                 <a href="{{ route('polls.edit', $poll) }}" 
                    class="px-3 py-1 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 transition text-sm">
-                    Editar
+                    <i class="fas fa-eye"></i> Editar
                 </a>
 
                 <form action="{{ route('polls.destroy', $poll) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta enquete?');">
                     @csrf
                     @method('DELETE')
                     <button type="submit" 
-                            class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-700 transition text-sm">
-                        Excluir
+                            class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-700 transition text-sm cursor-pointer">
+                        <i class="fas fa-trash"></i> Excluir
                     </button>
                 </form>
             </div>
