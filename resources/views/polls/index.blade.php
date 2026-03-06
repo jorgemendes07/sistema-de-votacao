@@ -33,7 +33,7 @@
 
                 <a href="{{ route('polls.edit', $poll) }}" 
                    class="px-3 py-1 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 transition text-sm">
-                    <i class="fas fa-eye"></i> Editar
+                    <i class="fas fa-edit"></i> Editar
                 </a>
 
                 <form action="{{ route('polls.destroy', $poll) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta enquete?');">
