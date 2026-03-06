@@ -1,17 +1,37 @@
 {
     "$schema": "https://www.schemastore.org/package.json",
     "private": true,
-    "type": "module",
     "scripts": {
         "build": "vite build",
-        "dev": "vite"
+        "dev": "vite",
+        "tailwind:init": "tailwindcss init -p"
     },
     "devDependencies": {
         "@tailwindcss/vite": "^4.0.0",
+        "autoprefixer": "^10.4.27",
         "axios": "^1.11.0",
         "concurrently": "^9.0.1",
         "laravel-vite-plugin": "^2.0.0",
-        "tailwindcss": "^4.0.0",
+        "postcss": "^8.5.8",
+        "tailwindcss": "^4.2.1",
         "vite": "^7.0.7"
-    }
+    },
+    "name": "sistema-de-votacao",
+    "version": "1.0.0",
+    "description": "Aplicação web para criação e gerenciamento de votações.",
+    "main": "vite.config.js",
+    "directories": {
+        "test": "tests"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/jorgemendes07/sistema-de-votacao.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/jorgemendes07/sistema-de-votacao/issues"
+    },
+    "homepage": "https://github.com/jorgemendes07/sistema-de-votacao#readme"
 }
