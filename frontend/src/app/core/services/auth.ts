@@ -43,18 +43,18 @@ export class AuthService {
     return this.http.post<void>(`${this.baseUrl}/logout`, {}).pipe(tap(() => this.clearSession()));
   }
 
+  clearSession(): void {
+    localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem(USER_KEY);
+    this.tokenSignal.set(null);
+    this.userSignal.set(null);
+  }
+
   private persistSession(response: AuthResponse): void {
     localStorage.setItem(TOKEN_KEY, response.token);
     localStorage.setItem(USER_KEY, JSON.stringify(response.user));
     this.tokenSignal.set(response.token);
     this.userSignal.set(response.user);
-  }
-
-  private clearSession(): void {
-    localStorage.removeItem(TOKEN_KEY);
-    localStorage.removeItem(USER_KEY);
-    this.tokenSignal.set(null);
-    this.userSignal.set(null);
   }
 
   private readStoredUser(): User | null {
