@@ -1,0 +1,21 @@
+<header class="bg-white shadow p-4">
+  <div class="max-w-6xl mx-auto flex justify-between items-center">
+    <a routerLink="/" class="text-xl font-bold">Sistema de Votação</a>
+
+    <nav class="flex gap-4 items-center">
+      @if (auth.isAuthenticated()) {
+        <a
+          routerLink="/polls/new"
+          class="bg-violet-500 text-white py-1 px-2 rounded hover:bg-violet-600 hover:shadow-md"
+        >
+          Nova Enquete
+        </a>
+        <button type="button" (click)="logout()" class="text-gray-600 hover:text-gray-900 cursor-pointer">
+          Sair
+        </button>
+      } @else {
+        <a routerLink="/login" class="text-gray-600 hover:text-gray-900">Entrar</a>
+      }
+    </nav>
+  </div>
+</header>
