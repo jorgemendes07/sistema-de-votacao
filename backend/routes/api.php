@@ -14,11 +14,11 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::get('/polls', [PollController::class, 'index']);
 Route::get('/polls/{poll}', [PollController::class, 'show']);
-Route::post('/polls/{poll}/vote', [PollController::class, 'vote']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/polls', [PollController::class, 'store']);
     Route::put('/polls/{poll}', [PollController::class, 'update']);
     Route::patch('/polls/{poll}', [PollController::class, 'update']);
     Route::delete('/polls/{poll}', [PollController::class, 'destroy']);
+    Route::post('/polls/{poll}/vote', [PollController::class, 'vote']);
 });

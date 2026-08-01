@@ -53,9 +53,9 @@ class PollApiTest extends TestCase
         $this->assertDatabaseHas('polls', ['title' => 'Nova enquete']);
     }
 
-    public function test_guests_can_vote_on_a_poll(): void
+    public function test_guests_cannot_vote_on_a_poll(): void
     {
-        $poll = Poll::factory()->create();
+        $poll = Poll::factory()->create(['start_date' => now()->subDay(), 'end_date' => now()->addDay()]);
         $option = $poll->options()->create(['option_text' => 'A', 'votes' => 0]);
         $poll->options()->create(['option_text' => 'B', 'votes' => 0]);
 
@@ -63,9 +63,58 @@ class PollApiTest extends TestCase
             'option_id' => $option->id,
         ]);
 
+        $response->assertUnauthorized();
+    }
+
+    public function test_authenticated_users_can_vote_on_an_active_poll(): void
+    {
+        $user = User::factory()->create();
+        $poll = Poll::factory()->create(['start_date' => now()->subDay(), 'end_date' => now()->addDay()]);
+        $option = $poll->options()->create(['option_text' => 'A', 'votes' => 0]);
+        $poll->options()->create(['option_text' => 'B', 'votes' => 0]);
+
+        $response = $this->actingAs($user, 'sanctum')->postJson("/api/polls/{$poll->id}/vote", [
+            'option_id' => $option->id,
+        ]);
+
         $response->assertOk()
             ->assertJsonPath('data.options.0.votes', 1)
-            ->assertJsonPath('data.options.0.percentage', 100);
+            ->assertJsonPath('data.options.0.percentage', 100)
+            ->assertJsonPath('data.voted_option_id', $option->id);
+    }
+
+    public function test_users_cannot_vote_twice_on_the_same_poll(): void
+    {
+        $user = User::factory()->create();
+        $poll = Poll::factory()->create(['start_date' => now()->subDay(), 'end_date' => now()->addDay()]);
+        $optionA = $poll->options()->create(['option_text' => 'A', 'votes' => 0]);
+        $optionB = $poll->options()->create(['option_text' => 'B', 'votes' => 0]);
+
+        $this->actingAs($user, 'sanctum')->postJson("/api/polls/{$poll->id}/vote", [
+            'option_id' => $optionA->id,
+        ])->assertOk();
+
+        $response = $this->actingAs($user, 'sanctum')->postJson("/api/polls/{$poll->id}/vote", [
+            'option_id' => $optionB->id,
+        ]);
+
+        $response->assertStatus(409);
+        $this->assertDatabaseHas('poll_options', ['id' => $optionA->id, 'votes' => 1]);
+        $this->assertDatabaseHas('poll_options', ['id' => $optionB->id, 'votes' => 0]);
+    }
+
+    public function test_users_cannot_vote_on_a_poll_that_is_not_active(): void
+    {
+        $user = User::factory()->create();
+        $poll = Poll::factory()->create(['start_date' => now()->addDay(), 'end_date' => now()->addDays(2)]);
+        $option = $poll->options()->create(['option_text' => 'A', 'votes' => 0]);
+
+        $response = $this->actingAs($user, 'sanctum')->postJson("/api/polls/{$poll->id}/vote", [
+            'option_id' => $option->id,
+        ]);
+
+        $response->assertStatus(422);
+        $this->assertDatabaseHas('poll_options', ['id' => $option->id, 'votes' => 0]);
     }
 
     public function test_guests_cannot_delete_polls(): void

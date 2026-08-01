@@ -7,6 +7,7 @@ use App\Http\Requests\StorePollRequest;
 use App\Http\Requests\UpdatePollRequest;
 use App\Http\Resources\PollResource;
 use App\Models\Poll;
+use App\Models\Vote;
 use Illuminate\Http\Request;
 
 class PollController extends Controller
@@ -65,7 +66,22 @@ class PollController extends Controller
             'option_id' => 'required|integer',
         ]);
 
+        if ($poll->status !== 'em andamento') {
+            return response()->json(['message' => 'Esta enquete não está aberta para votação.'], 422);
+        }
+
         $option = $poll->options()->findOrFail($request->option_id);
+
+        if (Vote::where('user_id', $request->user()->id)->where('poll_id', $poll->id)->exists()) {
+            return response()->json(['message' => 'Você já votou nesta enquete.'], 409);
+        }
+
+        Vote::create([
+            'user_id' => $request->user()->id,
+            'poll_id' => $poll->id,
+            'poll_option_id' => $option->id,
+        ]);
+
         $option->increment('votes');
 
         return new PollResource($poll->load('options'));
