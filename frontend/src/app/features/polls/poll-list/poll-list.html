@@ -1,0 +1,46 @@
+<div class="max-w-2xl mx-auto flex flex-col gap-4">
+  <h1 class="text-2xl font-bold mb-4">Enquetes Disponíveis</h1>
+
+  @for (poll of polls(); track poll.id) {
+    <div class="bg-white p-4 border border-gray-400 rounded-lg hover:bg-gray-50 hover:shadow-lg transition flex flex-col gap-2 relative">
+      <div class="flex justify-between items-start">
+        <h2 class="font-semibold text-lg">{{ poll.title }}</h2>
+        <span class="px-2 py-1 rounded-full text-xs min-w-max ml-3 {{ statusClasses(poll.status) }}">
+          {{ poll.status | titlecase }}
+        </span>
+      </div>
+
+      <p class="text-sm text-gray-500">
+        {{ poll.start_date | date: 'dd/MM/yyyy HH:mm' }} — {{ poll.end_date | date: 'dd/MM/yyyy HH:mm' }}
+      </p>
+
+      <div class="flex gap-2 mt-2">
+        <a
+          [routerLink]="['/polls', poll.id, 'vote']"
+          class="px-3 py-1 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 transition text-sm"
+        >
+          Ver
+        </a>
+
+        @if (auth.isAuthenticated()) {
+          <a
+            [routerLink]="['/polls', poll.id, 'edit']"
+            class="px-3 py-1 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 transition text-sm"
+          >
+            Editar
+          </a>
+
+          <button
+            type="button"
+            (click)="removePoll(poll)"
+            class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-700 transition text-sm cursor-pointer"
+          >
+            Excluir
+          </button>
+        }
+      </div>
+    </div>
+  } @empty {
+    <p class="text-gray-500">Nenhuma enquete disponível no momento.</p>
+  }
+</div>

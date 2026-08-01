@@ -1,0 +1,78 @@
+@if (poll(); as p) {
+  <div class="max-w-2xl mx-auto flex flex-col gap-6">
+    <div>
+      <h1 class="text-2xl sm:text-3xl font-bold">{{ p.title }}</h1>
+
+      <div class="flex flex-wrap items-center gap-3 mt-2">
+        @switch (status()) {
+          @case ('active') {
+            <span class="bg-green-600 text-white px-2 py-1 rounded-full text-sm">Em andamento</span>
+          }
+          @case ('not_started') {
+            <span class="bg-yellow-500 text-white px-2 py-1 rounded-full text-sm">Não iniciada</span>
+          }
+          @default {
+            <span class="bg-gray-400 text-white px-2 py-1 rounded-full text-sm">Finalizada</span>
+          }
+        }
+
+        <span class="text-sm text-gray-500">
+          {{ p.start_date | date: 'dd/MM/yyyy HH:mm' }} — {{ p.end_date | date: 'dd/MM/yyyy HH:mm' }}
+        </span>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-3">
+      @for (option of p.options; track option.id) {
+        <label class="relative block group">
+          <input
+            type="radio"
+            name="option_id"
+            class="peer hidden"
+            [checked]="selectedOptionId() === option.id"
+            (change)="selectedOptionId.set(option.id)"
+            [disabled]="status() !== 'active'"
+          />
+
+          <div
+            class="relative overflow-hidden cursor-pointer transition-all p-4 rounded-lg border bg-white border-gray-300 shadow-sm peer-checked:ring-2 peer-checked:ring-violet-500 peer-checked:border-violet-500 hover:bg-gray-50"
+            [class.opacity-70]="status() !== 'active'"
+            [class.cursor-not-allowed]="status() !== 'active'"
+          >
+            <div class="absolute inset-0 bg-violet-100 transition-all duration-500" [style.width.%]="option.percentage"></div>
+
+            <div class="relative flex items-center justify-between gap-3">
+              <span class="font-medium text-gray-800">{{ option.option_text }}</span>
+
+              <div class="flex items-center gap-2 shrink-0">
+                <span class="text-violet-500 font-semibold">{{ option.votes }} votos</span>
+                <span class="text-xs text-gray-500">({{ option.percentage }}%)</span>
+              </div>
+            </div>
+          </div>
+        </label>
+      }
+    </div>
+
+    @if (status() === 'active') {
+      <button
+        type="button"
+        [disabled]="selectedOptionId() === null"
+        (click)="vote()"
+        class="w-full bg-violet-600 hover:bg-violet-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-3 px-6 rounded-lg transition-colors shadow-md mt-2"
+      >
+        Votar
+      </button>
+    } @else {
+      <p class="text-sm text-gray-500 mt-2">
+        {{ status() === 'not_started' ? 'A votação ainda não começou.' : 'A votação já foi encerrada.' }}
+      </p>
+    }
+
+    @if (justVoted()) {
+      <div class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-gray-200 text-gray-900 px-4 py-2 rounded shadow-lg">
+        Voto registrado!
+      </div>
+    }
+  </div>
+}

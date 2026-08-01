@@ -1,0 +1,82 @@
+<div class="max-w-2xl mx-auto flex flex-col gap-6">
+  <h1 class="text-2xl font-bold">{{ isEditing() ? 'Editar Enquete' : 'Criar Nova Enquete' }}</h1>
+
+  @if (errors().length > 0) {
+    <div class="bg-red-100 text-red-700 p-4 rounded">
+      <ul class="list-disc list-inside">
+        @for (error of errors(); track error) {
+          <li>{{ error }}</li>
+        }
+      </ul>
+    </div>
+  }
+
+  <form (ngSubmit)="submit()" class="flex flex-col gap-4">
+    <div>
+      <label class="block font-medium mb-1" for="title">Título da Enquete</label>
+      <input
+        type="text"
+        id="title"
+        name="title"
+        [ngModel]="title()"
+        (ngModelChange)="title.set($event)"
+        class="w-full border rounded px-3 py-2"
+        placeholder="Digite aqui o título da sua enquete"
+        required
+      />
+    </div>
+
+    <div class="flex gap-4">
+      <div class="flex-1">
+        <label class="block font-medium mb-1" for="start_date">Data de Início</label>
+        <input
+          type="datetime-local"
+          id="start_date"
+          name="start_date"
+          [ngModel]="startDate()"
+          (ngModelChange)="startDate.set($event)"
+          class="w-full border rounded px-3 py-2"
+          required
+        />
+      </div>
+
+      <div class="flex-1">
+        <label class="block font-medium mb-1" for="end_date">Data de Término</label>
+        <input
+          type="datetime-local"
+          id="end_date"
+          name="end_date"
+          [ngModel]="endDate()"
+          (ngModelChange)="endDate.set($event)"
+          class="w-full border rounded px-3 py-2"
+          required
+        />
+      </div>
+    </div>
+
+    @if (!isEditing()) {
+      <div class="flex flex-col gap-2">
+        <label class="block font-medium mb-1">Opções</label>
+        @for (option of options(); track $index) {
+          <input
+            type="text"
+            [ngModel]="option"
+            (ngModelChange)="updateOption($index, $event)"
+            name="option-{{ $index }}"
+            class="w-full border rounded px-3 py-2"
+            placeholder="Opção {{ $index + 1 }}"
+            required
+          />
+        }
+      </div>
+
+      <button type="button" (click)="addOption()" class="self-start text-violet-600 cursor-pointer hover:underline">
+        + Adicionar opção
+      </button>
+    }
+
+    <button type="submit" class="bg-violet-600 text-white px-4 py-2 rounded hover:bg-violet-900 transition cursor-pointer">
+      {{ isEditing() ? 'Salvar Enquete' : 'Criar Enquete' }}
+    </button>
+  </form>
+</div>
