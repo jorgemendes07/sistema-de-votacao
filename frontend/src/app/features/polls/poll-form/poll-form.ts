@@ -17,7 +17,7 @@ export class PollForm {
   protected readonly title = signal('');
   protected readonly startDate = signal('');
   protected readonly endDate = signal('');
-  protected readonly options = signal<string[]>(['', '', '']);
+  protected readonly options = signal<string[]>(['', '']);
   protected readonly errors = signal<string[]>([]);
 
   protected readonly isEditing = () => this.pollId() !== null;
