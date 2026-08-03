@@ -1,6 +1,13 @@
-<header class="bg-white shadow p-4">
+<header class="bg-white shadow p-3">
   <div class="max-w-6xl mx-auto flex justify-between items-center">
-    <a routerLink="/" class="text-xl font-bold">Sistema de Votação</a>
+    @if (isHome()) {
+      <a routerLink="/" class="text-xl font-bold">Sistema de Votação</a>
+    } @else {
+      <a routerLink="/" class="border-2 py-1 px-3 rounded flex items-center gap-1 text-gray-600 hover:text-gray-900">
+        <span aria-hidden="true">←</span>
+        Voltar
+      </a>
+    }
 
     <nav class="flex gap-4 items-center">
       @if (auth.isAuthenticated()) {

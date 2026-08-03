@@ -1,5 +1,6 @@
-import { Component, inject } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Component, inject, signal } from '@angular/core';
+import { NavigationEnd, Router, RouterLink } from '@angular/router';
+import { filter } from 'rxjs';
 import { AuthService } from '../../core/services/auth';
 
 @Component({
@@ -10,6 +11,14 @@ import { AuthService } from '../../core/services/auth';
 export class Header {
   protected readonly auth = inject(AuthService);
   private readonly router = inject(Router);
+
+  protected readonly isHome = signal(this.router.url === '/');
+
+  constructor() {
+    this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((event) => {
+      this.isHome.set(event.urlAfterRedirects === '/');
+    });
+  }
 
   protected logout(): void {
     this.auth.logout().subscribe(() => this.router.navigate(['/']));
