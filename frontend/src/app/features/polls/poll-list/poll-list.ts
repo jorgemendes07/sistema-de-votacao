@@ -24,7 +24,7 @@ export class PollList {
     return {
       'em andamento': 'bg-green-600 text-white',
       'não iniciada': 'bg-yellow-500 text-white',
-      finalizada: 'bg-gray-400 text-white',
+      'finalizada': 'bg-gray-400 text-white',
     }[status];
   }
 
