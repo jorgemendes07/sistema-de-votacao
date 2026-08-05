@@ -3,8 +3,8 @@
     @if (isHome()) {
       <a routerLink="/" class="text-xl font-bold">Sistema de Votação</a>
     } @else {
-      <a routerLink="/" class="border-2 py-1 px-3 rounded flex items-center gap-1 text-gray-600 hover:text-gray-900">
-        <span aria-hidden="true">←</span>
+      <a routerLink="/" class="border-2 py-1 px-2 rounded flex items-center gap-1 text-gray-600 hover:text-gray-900">
+      <i class="fas fa-arrow-left"></i>
         Voltar
       </a>
     }
@@ -48,6 +48,7 @@
           routerLink="/polls/new"
           class="bg-violet-500 text-white py-1 px-2 rounded hover:bg-violet-600 hover:shadow-md"
         >
+        <i class="fas fa-plus"></i>
           Nova Enquete
         </a>
       } @else {

@@ -19,7 +19,8 @@
           [routerLink]="['/polls', poll.id, 'vote']"
           class="px-3 py-1 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 transition text-sm"
         >
-          Ver
+        <i class="fas fa-eye"></i>
+          Visualizar
         </a>
 
         @if (poll.owned_by_current_user) {
@@ -27,6 +28,7 @@
             [routerLink]="['/polls', poll.id, 'edit']"
             class="px-3 py-1 bg-gray-300 text-gray-800 rounded hover:bg-gray-400 transition text-sm"
           >
+          <i class="fas fa-edit"></i>
             Editar
           </a>
 
@@ -35,6 +37,7 @@
             (click)="removePoll(poll)"
             class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-700 transition text-sm cursor-pointer"
           >
+          <i class="fas fa-trash"></i>
             Excluir
           </button>
         }
