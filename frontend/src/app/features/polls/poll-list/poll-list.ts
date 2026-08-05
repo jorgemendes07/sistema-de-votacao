@@ -1,7 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DatePipe, TitleCasePipe } from '@angular/common';
-import { AuthService } from '../../../core/services/auth';
 import { PollService } from '../../../core/services/poll';
 import { Poll } from '../../../core/models/poll.model';
 
@@ -12,7 +11,6 @@ import { Poll } from '../../../core/models/poll.model';
 })
 export class PollList {
   private readonly pollService = inject(PollService);
-  protected readonly auth = inject(AuthService);
 
   protected readonly polls = signal<Poll[]>([]);
 
@@ -33,8 +31,9 @@ export class PollList {
       return;
     }
 
-    this.pollService.remove(poll.id).subscribe(() => {
-      this.polls.update((polls) => polls.filter((p) => p.id !== poll.id));
+    this.pollService.remove(poll.id).subscribe({
+      next: () => this.polls.update((polls) => polls.filter((p) => p.id !== poll.id)),
+      error: (err) => alert(err.error?.message ?? 'Não foi possível excluir a enquete.'),
     });
   }
 }

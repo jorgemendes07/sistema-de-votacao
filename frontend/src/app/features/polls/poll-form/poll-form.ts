@@ -31,6 +31,12 @@ export class PollForm {
 
       this.pollService.get(id).subscribe((response) => {
         const poll = response.data;
+
+        if (!poll.owned_by_current_user) {
+          this.router.navigate(['/']);
+          return;
+        }
+
         this.title.set(poll.title);
         this.startDate.set(poll.start_date.slice(0, 16));
         this.endDate.set(poll.end_date.slice(0, 16));
@@ -63,7 +69,10 @@ export class PollForm {
 
     request$.subscribe({
       next: (response) => this.router.navigate(['/polls', response.data.id, 'vote']),
-      error: (err) => this.errors.set(Object.values(err.error?.errors ?? {}).flat() as string[]),
+      error: (err) => {
+        const fieldErrors = Object.values(err.error?.errors ?? {}).flat() as string[];
+        this.errors.set(fieldErrors.length > 0 ? fieldErrors : [err.error?.message ?? 'Não foi possível salvar a enquete.']);
+      },
     });
   }
 }

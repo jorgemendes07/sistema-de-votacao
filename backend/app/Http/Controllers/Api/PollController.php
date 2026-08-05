@@ -22,6 +22,7 @@ class PollController extends Controller
     public function store(StorePollRequest $request)
     {
         $poll = Poll::create([
+            'user_id' => $request->user()->id,
             'title' => $request->title,
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
@@ -44,6 +45,10 @@ class PollController extends Controller
 
     public function update(UpdatePollRequest $request, Poll $poll)
     {
+        if ($poll->user_id !== $request->user()->id) {
+            return response()->json(['message' => 'Você não tem permissão para editar esta enquete.'], 403);
+        }
+
         $poll->update([
             'title' => $request->title,
             'start_date' => $request->start_date,
@@ -53,8 +58,12 @@ class PollController extends Controller
         return new PollResource($poll->load('options'));
     }
 
-    public function destroy(Poll $poll)
+    public function destroy(Request $request, Poll $poll)
     {
+        if ($poll->user_id !== $request->user()->id) {
+            return response()->json(['message' => 'Você não tem permissão para excluir esta enquete.'], 403);
+        }
+
         $poll->delete();
 
         return response()->json(null, 204);

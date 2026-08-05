@@ -13,6 +13,7 @@ export interface Poll {
   start_date: string;
   end_date: string;
   status: PollStatus;
+  owned_by_current_user: boolean;
   voted_option_id: number | null;
   options: PollOption[];
 }

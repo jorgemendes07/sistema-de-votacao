@@ -18,6 +18,7 @@ class PollResource extends JsonResource
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
             'status' => $this->status,
+            'owned_by_current_user' => $user !== null && $user->id === $this->user_id,
             'voted_option_id' => $user
                 ? Vote::where('user_id', $user->id)->where('poll_id', $this->id)->value('poll_option_id')
                 : null,

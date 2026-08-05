@@ -10,6 +10,7 @@ class Poll extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'title',
         'start_date',
         'end_date',
@@ -19,6 +20,11 @@ class Poll extends Model
         'start_date' => 'datetime',
         'end_date' => 'datetime',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     // Relação com as opções
     public function options()
