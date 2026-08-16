@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
         $poll1 = Poll::create([
             'title' => 'Qual modalidade de estudo você prefere?',
             'start_date' => now()->addDays(3),
-            'end_date' => now()->addDays(3),
+            'end_date' => now()->addDays(6),
         ]);
 
         PollOption::create(['poll_id' => $poll1->id, 'option_text' => 'Presencial', 'votes' => 0]);
@@ -36,7 +36,7 @@ class DatabaseSeeder extends Seeder
         // Enquete 3
         $poll3 = Poll::create([
             'title' => 'Qual linguagem de programação você mais utiliza para back-end?',
-            'start_date' => now(),
+            'start_date' => now()->subDays(2),
             'end_date' => now()->addDays(4),
         ]);
 
