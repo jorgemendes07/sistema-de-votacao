@@ -11,15 +11,15 @@ O projeto foi desenvolvido com **Laravel** e executado em ambiente
 
 ### Tela inicial
 
-![Tela Inicial](./docs/index.png)
+![Tela Inicial](./backend/docs/index.png)
 
 ### Visualização da enquete
 
-![Enquete](./docs/vote.png)
+![Enquete](./backend/docs/vote.png)
 
 ### Formulário para nova enquete
 
-![Formulario](./docs/form.png)
+![Formulario](./backend/docs/form.png)
 
 ------------------------------------------------------------------------
 
